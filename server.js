@@ -6,7 +6,7 @@ const mongoose = require("mongoose")
 const router = express.Router()
 
 app.use(express.json())
-// app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }))
 app.use(studentRoutes)
 
 const PORT = process.env.PORT || 5000;
