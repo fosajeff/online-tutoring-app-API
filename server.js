@@ -1,13 +1,15 @@
 const express = require("express")
 const app = express()
-const studentAuth = require("./routes/students/auth")
+const studentRoutes = require("./routes/students/auth")
+const tutorRoutes = require("./routes/tutors/auth")
 const { DB_URL, HOST } = require("./config")
 const mongoose = require("mongoose")
 const router = express.Router()
 
 app.use(express.json())
-// app.use(express.urlencoded({ extended: false }))
-app.use(studentAuth)
+app.use(express.urlencoded({ extended: false }))
+app.use(studentRoutes)
+app.use(tutorRoutes)
 
 const PORT = process.env.PORT || 5000;
 
