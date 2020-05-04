@@ -1,33 +1,35 @@
 const express = require("express")
 const router = express.Router()
-const Student = require("../../models/students")
+const Tutor = require("../../models/tutors")
 const { SECRET_KEY } = require("../../config")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
+
 exports.signUp = (req, res, next) => {
-  const full_name = req.body.full_name
+  const first_name = req.body.first_name
+  const last_name = req.body.last_name
   const email = req.body.email
   const password = req.body.password
 
-  if (!full_name || !email || !password) {
+  if (!first_name || !last_name || !email || !password) {
     res.status(400).send({
       message: "All fields are required",
       documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
     })
   }
-  Student.findOne({ email })
-  .then(student => {
-    if (student) {
+  Tutor.findOne({ email })
+  .then(tutor => {
+    if (tutor) {
       return res.status(423).send({
-        message: `A user with ${student.email} already exist`,
+        message: `A user with ${tutor.email} already exist`,
         documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
       })
     }
     bcrypt.hash(password, 12)
     .then(password => {
-      const student = new Student({ full_name, email, password })
-      return student.save()
+      const tutor = new Tutor({ first_name, last_name, email, password })
+      return tutor.save()
     }).then(() => {
       return res.status(201).send({
         message: "Account created successfully"
@@ -42,31 +44,32 @@ exports.signUp = (req, res, next) => {
   })
 }
 
+
 exports.logIn = (req, res, next) => {
   const email = req.body.email
   const password = req.body.password
 
-  Student.findOne({ email })
-  .then(student => {
-    if (!student) {
+  Tutor.findOne({ email })
+  .then(tutor => {
+    if (!tutor) {
       return res.status(404).send({
         message: "Incorrect username or password, review details and try again",
         documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
       })
     }
-    bcrypt.compare(password, student.password)
+    bcrypt.compare(password, tutor.password)
     .then(valid => {
       if(!valid) {
         res.status(403)
         .send({status: false, message: "Incorrect username or password, review details and try again"})
       }
       const token = jwt.sign({
-        email: student.email,
-        _id: student._id,
+        email: tutor.email,
+        _id: tutor._id,
       }, SECRET_KEY, {expiresIn: 3600000})
       res.status(200).send({
         message: "Login successful",
-        _id: student._id,
+        _id: tutor._id,
         token: token
       })
     }).catch(err => console.log(err))
