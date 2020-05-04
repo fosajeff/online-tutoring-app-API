@@ -4,11 +4,11 @@ const Student = require("../../models/students")
 const bcrypt = require("bcryptjs")
 
 exports.signUp = (req, res, next) => {
-  const fullName = req.body.fullName
+  const full_name = req.body.full_name
   const email = req.body.email
   const password = req.body.password
 
-  if (!fullName || !email || !password) {
+  if (!full_name || !email || !password) {
     res.status(400).send({
       message: "All fields are required",
       documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
@@ -24,7 +24,7 @@ exports.signUp = (req, res, next) => {
     }
     bcrypt.hash(password, 12)
     .then(password => {
-      const student = new Student({ fullName, email, password })
+      const student = new Student({ full_name, email, password })
       return student.save()
     }).then(() => {
       return res.status(201).send({
