@@ -12,9 +12,16 @@ module.exports = {
           documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
         })
       }
-      const category = await Category.create({ category_name })
-      await category.save()
-      res.json(category)
+      let exist = await Category.findOne({ category_name })
+      if (!exist) {
+        const category = await Category.create({ category_name })
+        await category.save()
+        res.json(category)
+      }
+      res.status(423)
+      .send({
+        message: `Category with name ${category_name} already exist`,
+      })
     } catch (e) {
       console.log(e)
     }
@@ -23,7 +30,7 @@ module.exports = {
   // GET /categories
   findAll: async (req, res) => {
     try {
-      const category = await Category.find()
+      const category = await Category.find().populate("subjects")
       res.json(category)
 
     } catch (e) {
@@ -35,7 +42,7 @@ module.exports = {
   findCategory: async (req, res) => {
     try {
       const { category } = req.params
-      const getCategory = await Category.findOne({ category_name: category })
+      const getCategory = await Category.findOne({ category_name: category }).populate("subjects")
       return res.json(getCategory)
     } catch (e) {
       console.log(e)

@@ -6,9 +6,12 @@ const categorySchema = new Schema({
     type: String,
     required: true
   },
-  subjects: {
-    type: Array
-  },
+  subjects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Subject"
+    }
+  ],
   tutors: [
     {
       type: Schema.Types.ObjectId,
