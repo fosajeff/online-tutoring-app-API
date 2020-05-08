@@ -8,7 +8,6 @@ module.exports = {
 
   findTutorsByFirstName: async (req, res) => {
     const { fname } = req.query
-    console.log(fname);
     const tutors = await Tutor.find({ first_name: fname}).sort({ first_name: 1, last_name: 1 })
     if (!tutors) {
       res.send({message: `No tutors with name ${fname}`})
@@ -28,9 +27,10 @@ module.exports = {
   registerSubject: async (req, res) => {
     const { category } = req.params
     const { tutor, subject } = req.body
-    if (!tutor) {
+
+    if (!tutor || !subject) {
       res.status(400).send({
-        message: "Tutor field is required",
+        message: "All fields are required",
         documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
       })
     }
@@ -53,6 +53,7 @@ module.exports = {
           })
         }
         data.subjects.push(subject)
+        data.category.push(category)
         await data.save()
         return res.json(data)
       }
@@ -69,9 +70,9 @@ module.exports = {
   unregisterSubject: async (req, res) => {
     const { category } = req.params
     const { tutor, subject } = req.body
-    if (!tutor) {
+    if (!tutor || !subject) {
       res.status(400).send({
-        message: "Tutor field is required",
+        message: "All fields are required",
         documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
       })
     }
@@ -86,13 +87,15 @@ module.exports = {
       let first_name = tutor_parts[0]
       let last_name = tutor_parts[1]
       const data = await Tutor.findOne({first_name, last_name})
-      if (data === null) {PUTPUTPUT
+      if (data === null) {
         return res.status(404).json({
           message: `Tutor with name ${req.user.first_name} ${last_name} does not exist`,
         })
       }
-      let index = data.subjects.indexOf(subject)
-      data.subjects.splice(index, 1)
+      let i = data.subjects.indexOf(subject)
+      data.subjects.splice(i, 1)
+      let ind = data.category.indexOf(category)
+      data.category.splice(ind, 1)
       await data.save()
       return res.json(data)
     } catch (e) {
