@@ -18,18 +18,10 @@ const tutorSchema = new Schema({
     type: String,
     required: true
   },
-  registered_subjects: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subject"
-    }
-  ],
-  category: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category"
-    }
-  ]
+  subjects: {
+    type: Array
+  },
+  role: String
 }, { timestamps: true })
 
 
