@@ -40,5 +40,27 @@ module.exports = {
       }
       return next()
     };
+  },
+
+  // make tutor an admin
+  makeTutorAdmin: async (req, res) => {
+    const { id } = req.params
+    const tutor = await Tutor.findById({_id:id})
+    tutor.role = "admin"
+    await tutor.save()
+    res.status(201).send({
+      message: "Role changed to admin"
+    })
+  }
+,
+  // remove admin
+  removeAdmin: async (req, res) => {
+    const { id } = req.params
+    const tutor = await Tutor.findById({_id:id})
+    tutor.role = "tutor"
+    await tutor.save()
+    res.status(201).send({
+      message: "Role changed tutor"
+    })
   }
 }
