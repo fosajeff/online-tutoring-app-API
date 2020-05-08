@@ -13,6 +13,9 @@ const categorySchema = new Schema({
       ref: "Subject"
     }
   ],
+  tutors: {
+    type: Array
+  }
 })
 
 categorySchema.pre('remove', function (cb) {
