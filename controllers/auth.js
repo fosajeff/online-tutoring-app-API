@@ -108,7 +108,7 @@ exports.signUpTutor = (req, res, next) => {
         message: "Account created successfully"
       })
     }).catch(err => console.log(err))
-    res.send({
+    return res.send({
       message: "Proceed to login with",
       email
     })

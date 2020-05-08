@@ -24,6 +24,10 @@ const tutorSchema = new Schema({
   category: {
     type: Array
   },
+  is_active: {
+    type: Boolean,
+    default: true
+  },
   role: String
 }, { timestamps: true })
 
