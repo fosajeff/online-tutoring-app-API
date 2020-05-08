@@ -14,16 +14,6 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  subjects: {
-    type: Array
-  },
-  lessons: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Tutor"
-    }
-  ],
-  role: String
 }, { timestamps: true })
 
 

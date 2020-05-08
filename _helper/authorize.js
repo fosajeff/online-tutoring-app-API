@@ -40,5 +40,49 @@ module.exports = {
       }
       return next()
     };
+  },
+
+  // make tutor an admin
+  makeTutorAdmin: async (req, res) => {
+    const { id } = req.params
+    const tutor = await Tutor.findById({_id:id})
+    tutor.role = "admin"
+    await tutor.save()
+    res.status(201).send({
+      message: "Role changed to admin"
+    })
   }
+,
+  // remove admin
+  removeAdmin: async (req, res) => {
+    const { id } = req.params
+    const tutor = await Tutor.findById({_id:id})
+    tutor.role = "tutor"
+    await tutor.save()
+    res.status(201).send({
+      message: "Role changed tutor"
+    })
+  },
+
+  // deactivate tutor
+  deactivateTutor: async (req, res) => {
+    const { id } = req.params
+    const tutor = await Tutor.findById({_id:id})
+    tutor.is_active = false
+    await tutor.save()
+    res.status(201).send({
+      message: `${tutor.first_name} ${tutor.last_name} is deactivated`
+    })
+  },
+
+  /// activate tutor
+  activateTutor: async (req, res) => {
+    const { id } = req.params
+    const tutor = await Tutor.findById({_id:id})
+    tutor.is_active = true
+    await tutor.save()
+    res.status(201).send({
+      message: `${tutor.first_name} ${tutor.last_name} is activated`
+    })
+  },
 }

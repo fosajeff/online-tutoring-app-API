@@ -91,6 +91,21 @@ module.exports = {
     } catch(e) {
       console.log(e)
     }
+  },
+
+  // student book lesson
+  bookLesson: async (req, res) => {
+    const { full_name, subject, tutor, challenges, time_of_day } = req.body
+    if (!full_name || !subject || !tutor || !challenges || !time_of_day) {
+      res.status(400).send({
+        message: "All fields are required",
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+      })
+    }
+    return res.status(200).json({
+      message: "Your lesson has been booked, we will contact your tutor."
+    })
+
   }
 
 }

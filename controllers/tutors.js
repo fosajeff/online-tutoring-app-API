@@ -52,6 +52,10 @@ module.exports = {
             message: `You already registered ${subject}`,
           })
         }
+        // add tutor to category
+        const set_category = await Category.findOne({ category_name: category})
+        set_category.tutors.push(tutor_parts)
+        await set_category.save()
         data.subjects.push(subject)
         data.category.push(category)
         await data.save()
@@ -92,6 +96,11 @@ module.exports = {
           message: `Tutor with name ${req.user.first_name} ${last_name} does not exist`,
         })
       }
+      // remove tutor from category
+      const set_category = await Category.findOne({ category_name: category})
+      let inde = set_category.tutors.indexOf(tutor_parts)
+      set_category.splice(inde, 1)
+      await set_category.save()
       let i = data.subjects.indexOf(subject)
       data.subjects.splice(i, 1)
       let ind = data.category.indexOf(category)
@@ -101,5 +110,5 @@ module.exports = {
     } catch (e) {
       console.log(e)
     }
-  }
+  },
 }
