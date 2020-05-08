@@ -13,12 +13,6 @@ const categorySchema = new Schema({
       ref: "Subject"
     }
   ],
-  tutors: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Tutor"
-    }
-  ]
 })
 
 categorySchema.pre('remove', function (cb) {

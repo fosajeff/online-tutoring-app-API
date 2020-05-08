@@ -21,6 +21,9 @@ const tutorSchema = new Schema({
   subjects: {
     type: Array
   },
+  category: {
+    type: Array
+  },
   role: String
 }, { timestamps: true })
 
