@@ -23,7 +23,7 @@ const userSchema = new Schema({
       ref: "Tutor"
     }
   ],
-  role: []
+  role: String
 }, { timestamps: true })
 
 

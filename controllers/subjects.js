@@ -15,7 +15,7 @@ module.exports = {
       })
     }
 
-    let exist = await Subject.findOne({ name, category })
+    let exist = await Subject.findOne({ name }) && await Category.findOne({ category_name: category})
     if (!exist) {
       try {
         const subject = await Subject.create({ name, category })
@@ -33,7 +33,7 @@ module.exports = {
     }
     res.status(423)
     .send({
-      message: `Subject with name ${name} already exist in ${category} category`,
+      message: `Subject or with name ${name} already exist or Category with name ${category} does not exist`,
     })
   },
 
@@ -129,9 +129,55 @@ module.exports = {
       await updateSubjectName.save()
       return res.json({message: "Update Successful"})
     } catch (e) { console.log(e) }
+},
 
   // DELETE /categories/:category/sujects/:subject/tutors/:id    // delete the tutor
   // deleteTutorBySubject:
 
+
+  // DELETE /categories/:category/subjects/:id
+  // deleteSubjectByCategory: async (req, res) => {
+  //   const { category, id } = req.params
+  //   const getCategory = await Category.findOne({ category_name: category })
+  //   if (getCategory === null) {
+  //     res.status(404)
+  //     .send({
+  //       message: `Category with name ${category} does not exist`,
+  //     })
+  //   }
+  //   // getCategory.remove(function () {
+  //   //   return res.json({message: "Subject deleted"})
+  //   // })
+  //   const categoryBySubjects = await Subject.findOne({ name: id, category })
+  //   if (!categoryBySubjects) {
+  //     res.status(404)
+  //     .send({
+  //       message: `No subject with name ${id} exist in the ${category} category`,
+  //     })
+  //   }
+  //   try {
+  //     const deleted = await categoryBySubjects.deleteOne({ name: id, category: category })
+  //     res.json({message: "Deleted Successfully", categoryBySubjects})
+  //   } catch (e) { console.log(e) }
+  // }
+
+  // DELETE /categories/:category/subjects/:id
+  deleteSubjectByCategory: async (req, res) => {
+    const subject = Subject.findOne({ name: req.params.name })
+    if (!subject) {
+      return res.status(404).json({message: `Subject with name ${req.params.name} not found`})
+    }
+    try {
+      subject.remove(function(err) {
+        if (!err) {
+          Category.update({_id: subject.category}, {$pull: {subject: subject._id}}, function (err, numberAffected) {
+            return res.json({message: `${numberAffected.ok} subject deleted`})
+          })
+        } else {
+          console.log(err);
+        }
+      })
+    } catch(e) { console.log(e) }
   }
+
 }

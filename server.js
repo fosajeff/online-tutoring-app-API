@@ -17,9 +17,9 @@ app.use(subjectRoutes)
 
 
 const PORT = process.env.PORT || 5000;
-// const url = "mongodb://localhost:27017/newTest"
+const url = "mongodb://localhost:27017/newTest"
 
-mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result => {
   console.log("Database connected successfully")
   app.listen(PORT, () => console.log(`Server running on http://${HOST}:${PORT}`))
@@ -36,7 +36,7 @@ app.get("/", (req, res) => {
 app.all("*", (req, res) => {
   res.status(404)
   .send({
-    message: "Not Found",
+    message: "404 - Not Found",
     documentation_url: "https://somewebapp.com/api/v1/README.md"
   })
 })

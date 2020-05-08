@@ -1,4 +1,5 @@
 const Category = require("../models/category")
+const Subject = require("../models/subjects")
 
 module.exports = {
 
@@ -49,4 +50,40 @@ module.exports = {
     }
   },
 
+  // PUT /categories/:category
+  updateCategory: async (req, res) => {
+    const { category } = req.params
+    const { category_name } = req.body
+
+    try {
+      const updateCategoryName = await Category.findOneAndUpdate({ category_name: category }, { category_name })
+      if (updateCategoryName === null) {
+        return res.status(404)
+        .send({
+          message: `Category with name ${category} does not exist`,
+        })
+      }
+      await updateCategoryName.save()
+      return res.json({message: "Update Successful"})
+    } catch (e) { console.log(e) }
+},
+
+  // DELETE /categories/:category
+  deleteCategory: async (req, res) => {
+    const category = Category.findOne({ category_name: req.params.category })
+    if (!category) {
+      return res.status(404).json({message: `Category with name ${req.params.category} not found`})
+    }
+    try {
+      category.remove(function(err) {
+        if (!err) {
+          Subject.update({_id: {$in: category.subjects}}, {$pull: {category: req.params.category}}, function (err, numberAffected) {
+            return res.json({message: `${numberAffected.ok} category deleted`})
+          })
+        } else {
+          console.log(err);
+        }
+      })
+    } catch(e) { console.log(e) }
+  }
 }

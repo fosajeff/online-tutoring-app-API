@@ -104,7 +104,7 @@ exports.signUpTutor = (req, res, next) => {
       const user = new Tutor({ first_name, last_name, email, password, role })
       return user.save()
     }).then(() => {
-      res.status(201).send({
+      return res.status(201).send({
         message: "Account created successfully"
       })
     }).catch(err => console.log(err))

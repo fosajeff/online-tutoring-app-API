@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
+const Category = require("./category")
 
 const subjectSchema = new Schema({
   name: {
@@ -10,13 +11,11 @@ const subjectSchema = new Schema({
     type: String,
     required: true
   },
-  lessons: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Lesson"
-    }
-  ]
-}, { timestamps: true })
+})
 
+subjectSchema.pre('remove', function(next){
+    this.model('Category').update(
 
+    );
+});
 module.exports = mongoose.model("Subject", subjectSchema)
