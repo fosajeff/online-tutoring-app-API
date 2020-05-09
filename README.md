@@ -1,4 +1,4 @@
-# REST API for Online Tutorial
+# REST API for Online Tutorial Application
 
 This is an online tutorial application REST API.
 
