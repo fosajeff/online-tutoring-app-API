@@ -16,9 +16,9 @@ The REST API to the online tutorial app is described below.
 
 ## Required body:
 
-    - full_name
-    - email
-    - password
+- full_name
+- email
+- password
 
 ### Response
 
@@ -31,8 +31,8 @@ The REST API to the online tutorial app is described below.
 
 ## Required body:
 
-    - email
-    - password
+- email
+- password
 
 ### Request
 
@@ -55,10 +55,10 @@ The REST API to the online tutorial app is described below.
 
 ## Required body:
 
-    - first_name
-    - last_name
-    - email
-    - password
+- first_name
+- last_name
+- email
+- password
 
 ### Response
 
@@ -75,8 +75,8 @@ The REST API to the online tutorial app is described below.
 
 ## Required body:
 
-    - email
-    - password
+- email
+- password
 
 ### Response
     
@@ -87,8 +87,8 @@ The REST API to the online tutorial app is described below.
     }
 
 ## An Admin can login in through any routes with the following details
-    * email: admin@mail.com
-    * password: #admin#
+* email: admin@mail.com
+* password: #admin#
 
 ## Get all categories
 
@@ -150,13 +150,13 @@ Access: Admin Only
 
 ## Required Body:
 
-    - category_name: String
+- category_name: String
 
 #### Example Request
 
 `POST /categories`
 
-    > category_name: Primary
+> category_name: Primary
 
 ### Response
 
@@ -178,18 +178,18 @@ Access: Admin Only
 
 ## Required body:
 
-    - category_name: String
+- category_name: String
 
 ## Optional body:
 
-    - tutors: [String]
+- tutors: [String]
 
 #### Example Request
 
 `PUT /categories/Primary`
 
-    > category_name: Primary
-    > tutors: ["Tutor One", "Tutor Two"]
+> category_name: Primary
+> tutors: ["Tutor One", "Tutor Two"]
 
 ### Response
 
@@ -312,13 +312,13 @@ Access: Admin Only
 
 ## Required Body:
 
-    - name: String
+- name: String
 
 #### Example Request
 
 `POST /categories/JSS/subjects`
 
-    > name: Geography
+> name: Geography
 
 ### Response
 
@@ -348,13 +348,13 @@ Access: Admin Only
 
 ## Required Body:
 
-    - name: String
+- name: String
 
 #### Example Request
 
 `PUT /categories/Primary/subjects/Geography`
 
-    > name: Literature
+> name: Literature
 
 ### Response
 
@@ -393,6 +393,7 @@ Access: Admin only
 [
     {
         "_id": "5eb5a9081dd96730baa54f60",
+        
         "title": "Being sure of what you have received",
         "subject": "CRS",
         "category": "Primary",
@@ -444,9 +445,9 @@ Access: Admin only
 
 ## Required Body:
 
-    - title: String
-    - subject: String
-    - category: String
+- title: String
+- subject: String
+- category: String
 
 ## Optional Body:
 
@@ -456,10 +457,10 @@ Access: Admin only
 
 `POST /lessons`
 
-    - title: Optics
-    - subject: Physics
-    - category: SSS
-    - content: "This is an introduction to wave optics"
+- title: Optics
+- subject: Physics
+- category: SSS
+- content: "This is an introduction to wave optics"
 
 ### Response
 
@@ -482,15 +483,15 @@ Access: Admin only
 
 ## Optional Body:
 
-    - title: String
-    - content: String
+- title: String
+- content: String
 
 #### Example Request
 
 `PATCH /lessons/Optics`
 
-    - title: Wave Optics
-    - content: "This is an introduction to wave optics and wave theory"
+- title: Wave Optics
+- content: "This is an introduction to wave optics and wave theory"
 
 ### Response
 
@@ -527,26 +528,26 @@ Access: Requires authentication
 
 ## Required Body:
 
-    - full_name: String
-    - subject: String
-    - tutor: String
-    - category: String
-    - time_of_day: String
+- full_name: String
+- subject: String
+- tutor: String
+- category: String
+- time_of_day: String
 
 ## Optional Body:
 
-    - challenges: String
+- challenges: String
 
 #### Example Request
 
 `POST /lessons/book`
 
-    - full_name: John Doe
-    - subject: Chemistry
-    - tutor: Ani Walker
-    - category: SSS
-    - time_of_day: Afternoon
-    - challenges: "I am having problem with understand how to balance chemical equations"
+- full_name: John Doe
+- subject: Chemistry
+- tutor: Ani Walker
+- category: SSS
+- time_of_day: Afternoon
+- challenges: "I am having problem with understand how to balance chemical equations"
 
 ### Response
 
@@ -569,40 +570,20 @@ Access: Requires authentication
 
 ### Response
 
-[
-    {
-        "subjects": [
-            "Maths",
-            "PHE",
-            "CRS"
-        ],
-        "category": ["Primary", "SSS"],
-        "is_active": true,
-        "_id": "5eb57350d476ca1144bcc8e5",
-        "first_name": "Michael",
-        "last_name": "Phillips",
-        "email": "phil@gmail.com",
-        "role": "tutor",
-        "createdAt": "2020-05-08T14:57:20.984Z",
-        "updatedAt": "2020-05-08T20:31:40.958Z",
-        "__v": 28
-    },
-    {
-        "subjects": [
-            "Maths",
-        ],
-        "category": ["JSS"],
-        "is_active": true,
-        "_id": "5eb573508893ja1144bcc4Yz",
-        "first_name": "Michael",
-        "last_name": "Toni",
-        "email": "toni@gmail.com",
-        "role": "tutor",
-        "createdAt": "2020-04-08T14:57:20.984Z",
-        "updatedAt": "2020-05-08T20:31:40.958Z",
-        "__v": 28
-    }
-]
+{
+    "subjects": ["Maths", "PHE", "CRS"],
+
+    "category": ["Primary", "SSS"],
+    "is_active": true,
+    "_id": "5eb57350d476ca1144bcc8e5",
+    "first_name": "Michael",
+    "last_name": "Phillips",
+    "email": "phil@gmail.com",
+    "role": "tutor",
+    "createdAt": "2020-05-08T14:57:20.984Z",
+    "updatedAt": "2020-05-08T20:31:40.958Z",
+    "__v": 28
+}
 
 
 ## Get a tutor in a category
@@ -628,7 +609,7 @@ Access: Requires authentication
                 "__v": 0
             } 
         ],
-        "tutors": [
+        tutors: [
             {
                 "_id": "5rb97voego934672hek943ew",
                 "first_name": "James",
@@ -653,15 +634,15 @@ Access: Admin and Tutors
 
 ## Required Body:
 
-    - tutor: String
-    - subject: String
+- tutor: String
+- subject: String
 
 #### Example Request
 
 `PUT /categories/JSS/tutors`
 
-    - tutor: "James Matt"
-    - subject: "English Language"
+- tutor: "James Matt"
+- subject: "English Language"
 
 ### Response
 
@@ -679,15 +660,15 @@ Access: Admin and Tutors
 
 ## Required Body:
 
-    - tutor: String
-    - subject: String
+- tutor: String
+- subject: String
 
 #### Example Request
 
 `DELETE /categories/JSS/tutors`
 
-    - tutor: "James Matt"
-    -  subject: "English Language"
+- tutor: "James Matt"
+-  subject: "English Language"
 
 ### Response
 
