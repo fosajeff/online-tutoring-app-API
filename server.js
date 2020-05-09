@@ -28,7 +28,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 }).catch(err => console.log("Connection to database failed =>", err))
 
 // Index Page
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
   res.send({
     message: "Welcome",
     documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
