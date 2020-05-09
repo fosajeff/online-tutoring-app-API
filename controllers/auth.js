@@ -15,7 +15,7 @@ exports.signUp = (req, res, next) => {
   if (!full_name || !email || !password) {
     res.status(400).send({
       message: "All fields are required",
-      documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+      documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
     })
   }
   User.findOne({ email })
@@ -23,7 +23,7 @@ exports.signUp = (req, res, next) => {
     if (user) {
       return res.status(423).send({
         message: `A user with ${user.email} already exist`,
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     bcrypt.hash(password, 12)
@@ -53,7 +53,7 @@ exports.logIn = (req, res, next) => {
     if (!user) {
       return res.status(404).send({
         message: "Incorrect username or password, review details and try again",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     bcrypt.compare(password, user.password)
@@ -88,7 +88,7 @@ exports.signUpTutor = (req, res, next) => {
   if (!first_name || !last_name || !email || !password) {
     res.status(400).send({
       message: "All fields are required",
-      documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+      documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
     })
   }
   Tutor.findOne({ email })
@@ -96,7 +96,7 @@ exports.signUpTutor = (req, res, next) => {
     if (user) {
       return res.status(423).send({
         message: `A user with ${user.email} already exist`,
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     bcrypt.hash(password, 12)
@@ -127,7 +127,7 @@ exports.logInTutor = (req, res, next) => {
     if (!user) {
       return res.status(404).send({
         message: "Incorrect username or password, review details and try again",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     bcrypt.compare(password, user.password)
@@ -135,7 +135,7 @@ exports.logInTutor = (req, res, next) => {
       if(!valid) {
         res.status(403)
         .send({message: "Incorrect username or password, review details and try again",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"})
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"})
       }
       const token = jwt.sign({
         _id: user._id,

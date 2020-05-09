@@ -1,50 +1,21 @@
 # REST API for Online Tutorial
 
-This is a bare-bones example of a Sinatra application providing a REST
-API to a DataMapper-backed model.
+This is an online tutorial application REST API.
 
-The entire application is contained within the `app.rb` file.
+<https://my-online-tutor.herokuapp.com/api/v1>
 
-`config.ru` is a minimal Rack configuration for unicorn.
-
-`run-tests.sh` runs a simplistic test and generates the API
-documentation below.
-
-It uses `run-curl-tests.rb` which runs each command defined in
-`commands.yml`.
-
-## Install
-
-    bundle install
-
-## Run the app
-
-    unicorn -p 7000
-
-## Run the tests
-
-    ./run-tests.sh
-
-# REST API
-
-Our application has various levels of accessibility. They include:
-
-    - User level
-    - Tutor level
-    - Admin level
 
 The REST API to the online tutorial app is described below.
 
 
-## User Level Access
+## Signup as User
 
 ### Request
 
 `POST /signup/`
 
-    https://online-tutorial.herokuapp/singup/
+## Required body:
 
-## Parameters:
     - full_name
     - email
     - password
@@ -56,290 +27,742 @@ The REST API to the online tutorial app is described below.
         "email": "user@email.com"
     }
 
-## Login as user
+## Login as User
+
+## Required body:
+
+    - email
+    - password
 
 ### Request
 
 `POST /login`
 
-    https://my-tutor-app.herokupapp.com/login
+### Response
+    
+    {
+        "message": "Login successful",
+        "_id": "5eb5da3b992be34dcc0217fe",
+        "token": "somerandomtoken"
+    }
+
+
+## Signup as Tutor
+
+### Request
+
+`POST /signup/tutor`
+
+## Required body:
+
+    - first_name
+    - last_name
+    - email
+    - password
 
 ### Response
 
     {
-        "message": "Login successful",
-        "_id": "5eb5da3b992be34dcc0217fe",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZWI1ZGEzYjk5MmJlMzRkY2MwMjE3ZmUiLCJpYXQiOjE1ODg5NzY0MjgsImV4cCI6MTU4OTA2MjgyOH0.gl8BIa5FEYzIIYIP3KSQox0qTJL_a5NonOGfJ89jT5E"
+        "message": "Proceed to login with",
+        "email": "user@email.com"
     }
 
-## Get a specific Thing
+## Login as Tutor
 
 ### Request
 
-`GET /thing/id`
+`POST /login/tutor`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/1
+## Required body:
+
+    - email
+    - password
+
+### Response
+    
+    {
+        "message": "Login successful",
+        "_id": "5eb5da3b992be34dcc0217fe",
+        "token": "somerandomtoken"
+    }
+
+## An Admin can login in through any routes with the following details
+    * email: admin@mail.com
+    * password: #admin#
+
+## Get all categories
+
+Access: Requires authentication
+
+### Request
+
+`GET /categories`
 
 ### Response
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:30 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 36
+    [
+        {
+            subjects: [],
+            "tutors": [],
+            "_id": "5eb67ac8bd58b7104e504349",
+            "category_name": "JSS",
+            "__v": 0
+        },
+        {
+            subjects: [],
+            "tutors": [],
+            "_id": "5peolrkajijER7893494eFGr",
+            "category_name": "Primary",
+            "__v": 0
+        },
+    ]
 
-    {"id":1,"name":"Foo","status":"new"}
+## Get a category by id
 
-## Get a non-existent Thing
+Access: Requires authentication
 
 ### Request
 
-`GET /thing/id`
+`GET /categories/:id`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/9999
+#### Example Request
+
+`GET /categories/JSS`
 
 ### Response
 
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:30 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 35
+    {
+        subjects: [],
+        "tutors": [],
+        "_id": "5eb67ac8bd58b7104e504349",
+        "category_name": "JSS",
+        "__v": 0
+    }
 
-    {"status":404,"reason":"Not found"}
 
-## Create another new Thing
+## Create a category
+
+Access: Admin Only
 
 ### Request
 
-`POST /thing/`
+`POST /categories`
 
-    curl -i -H 'Accept: application/json' -d 'name=Bar&junk=rubbish' http://localhost:7000/thing
+## Required Body:
+
+    - category_name: String
+
+#### Example Request
+
+`POST /categories`
+
+    > category_name: Primary
 
 ### Response
 
-    HTTP/1.1 201 Created
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 201 Created
-    Connection: close
-    Content-Type: application/json
-    Location: /thing/2
-    Content-Length: 35
+    {
+        "subjects": [],
+        "tutors": [],
+        "_id": "5eb67ac8bd58b7104e504349",
+        "category_name": "Primary",
+        "__v": 0
+    }
 
-    {"id":2,"name":"Bar","status":null}
+## Update a category
 
-## Get list of Things again
+Access: Admin Only
 
 ### Request
 
-`GET /thing/`
+`PUT /categories/:id`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/
+## Required body:
+
+    - category_name: String
+
+## Optional body:
+
+    - tutors: [String]
+
+#### Example Request
+
+`PUT /categories/Primary`
+
+    > category_name: Primary
+    > tutors: ["Tutor One", "Tutor Two"]
+
+### Response
+
+    {
+        "message": "Update Successful"
+    }
+
+
+## Delete a category
+
+Access: Admin Only
+
+### Request
+
+`DELETE /categories/:id`
+
+#### Example Request
+
+`DELETE /categories/Primary`
+
+### Response
+
+    [
+        {"message": "1 category deleted"}
+    ]
+
+## Get all subjects by category
+
+Access: Requires authentication
+
+### Request
+
+`GET /categories/:category/subjects`
+
+#### Example Request
+
+`GET /categories/Primary/subjects`
+
+### Response
+
+    [
+        {
+            "_id": "5eb67bokekjfb7104e50434a",
+            "name": "Mathematics",
+            "category": "Primary",
+            "__v": 0
+        },
+        {
+            "_id": "5eb67bokekjfb7104e50434a",
+            "name": "Social Studies",
+            "category": "Primary",
+            "__v": 0
+        }
+    ]
+
+## Get a subject in a category by id
+
+Access: Requires authentication
+
+### Request
+
+`GET /categories/:category/subjects/:id`
+
+#### Example Request
+
+`GET /categories/Primary/subjects/Mathematics`
+
+### Response
+
+    {
+        "_id": "5eb67bokekjfb7104e50434a",
+        "name": "Mathematics",
+        "category": "Primary",
+        "__v": 0
+    }
+
+
+## Search a subject by subject name
+
+Access: Requires authentication
+
+### Request
+
+`GET /subjects?sname=:id`
+
+#### Example Request
+
+`GET /subjects?sname=Mathematics`
+
+### Response
+
+    [
+        {
+            "_id": "5eb67b723lvp039fve50434a",
+            "name": "Mathematics",
+            "category": "JSS",
+            "__v": 0
+        },
+        {
+            "_id": "5woerbokekweigg4eWT4Qrie",
+            "name": "Mathematics",
+            "category": "Primary",
+            "__v": 0
+        },
+        {
+            "_id": "5gh3j4ktgto23l104e50434a",
+            "name": "Mathematics",
+            "category": "SSS",
+            "__v": 0
+        }
+    ]
+
+## Add a subject
+
+Access: Admin Only
+
+### Request
+
+`POST /categories/:category/subjects`
+
+## Required Body:
+
+    - name: String
+
+#### Example Request
+
+`POST /categories/JSS/subjects`
+
+    > name: Geography
+
+### Response
+
+    {
+        "subjects": [
+            {
+                "_id": "5eb67bfabd58b7104e50434a",
+                "name": "Geography",
+                "category": "JSS",
+                "__v": 0
+            }
+        ],
+        "tutors": [],
+        "_id": "5eb67ac8bd58b7104e504349",
+        "category_name": "JSS",
+        "__v": 1
+    }
+
+
+## Update a subject by id
+
+Access: Admin Only
+
+### Request
+
+`PUT /categories/:category/subjects/:id`
+
+## Required Body:
+
+    - name: String
+
+#### Example Request
+
+`PUT /categories/Primary/subjects/Geography`
+
+    > name: Literature
+
+### Response
+
+{
+    "message": "Update Successful"
+}
+
+## Delete a subject by id
+
+Access: Admin Only
+
+### Request
+
+`DELETE /categories/:category/subjects/:id`
+
+#### Example Request
+
+`DELETE /categories/JSS/subjects/Literature`
+
+### Response
+
+    {
+        "message": "1 subject deleted"
+    }
+
+## Get all lessons
+
+Access: Admin only
+
+### Request
+
+`GET /lessons`
+
+### Response
+
+[
+    {
+        "_id": "5eb5a9081dd96730baa54f60",
+        "title": "Being sure of what you have received",
+        "subject": "CRS",
+        "category": "Primary",
+        "content": "This is the content of this lesson",
+        "__v": 0
+    },
+    {
+        "_id": "5eb5a9081dd967fjfh4H4f60",
+        "title": "The wave particle paradox",
+        "subject": "Physics",
+        "category": "SSS",
+        "content": "This is the content of this lesson",
+        "__v": 0
+    },
+]
+
+## Get a lesson by id
+
+Access: Admin only
+
+### Request
+
+`GET /lessons:id`
+
+#### Example Request
+
+`GET /lessons/Optics`
+
+### Response
+
+    [
+    {
+        "_id": "5eb5sd0ghjd96730baa54f60",
+        "title": "Optics",
+        "subject": "Physics",
+        "category": "SSS",
+        "content": "This is the content of this lesson",
+        "__v": 0
+    }
+]
+
+## Create a lesson
+
+Access: Admin only
+
+### Request
+
+`POST /lessons`
+
+## Required Body:
+
+    - title: String
+    - subject: String
+    - category: String
+
+## Optional Body:
+
+    - content: String
+
+#### Example Request
+
+`POST /lessons`
+
+    - title: Optics
+    - subject: Physics
+    - category: SSS
+    - content: "This is an introduction to wave optics"
+
+### Response
+
+    {
+        "_id": "5eb680a1bd58b7104e50434c",
+        "title": "Optics",
+        "subject": "Physics",
+        "category": "SSS",
+        "content": "This is an introduction to wave optics",
+        "__v": 0
+    }
+
+## Update a lesson
+
+Access: Admin only
+
+### Request
+
+`PATCH /lessons/:id`
+
+## Optional Body:
+
+    - title: String
+    - content: String
+
+#### Example Request
+
+`PATCH /lessons/Optics`
+
+    - title: Wave Optics
+    - content: "This is an introduction to wave optics and wave theory"
+
+### Response
+
+    {
+        message: "Update Successful"
+    }
+
+## Delete a lesson
+
+Access: Admin only
+
+### Request
+
+`DELETE /lessons/:id`
+
+#### Example Request
+
+`DELETE /lessons/Optics`
+
+### Response
+
+    {
+        "message": "Delete Successful"
+    }
+
+
+# Book a lesson
+
+Access: Requires authentication
+
+### Request
+
+`POST /lessons/book`
+
+## Required Body:
+
+    - full_name: String
+    - subject: String
+    - tutor: String
+    - category: String
+    - time_of_day: String
+
+## Optional Body:
+
+    - challenges: String
+
+#### Example Request
+
+`POST /lessons/book`
+
+    - full_name: John Doe
+    - subject: Chemistry
+    - tutor: Ani Walker
+    - category: SSS
+    - time_of_day: Afternoon
+    - challenges: "I am having problem with understand how to balance chemical equations"
+
+### Response
+
+    {
+        "message": "Your lesson has been booked, we will contact your tutor."
+    }
+
+
+## Search a tutor by first name
+
+Access: Requires authentication
+
+### Request
+
+`GET /tutors?fname=:id`
+
+#### Example Request
+
+`GET /tutors?fname=Michael`
+
+### Response
+
+[
+    {
+        "subjects": [
+            "Maths",
+            "PHE",
+            "CRS"
+        ],
+        "category": ["Primary", "SSS"],
+        "is_active": true,
+        "_id": "5eb57350d476ca1144bcc8e5",
+        "first_name": "Michael",
+        "last_name": "Phillips",
+        "email": "phil@gmail.com",
+        "role": "tutor",
+        "createdAt": "2020-05-08T14:57:20.984Z",
+        "updatedAt": "2020-05-08T20:31:40.958Z",
+        "__v": 28
+    },
+    {
+        "subjects": [
+            "Maths",
+        ],
+        "category": ["JSS"],
+        "is_active": true,
+        "_id": "5eb573508893ja1144bcc4Yz",
+        "first_name": "Michael",
+        "last_name": "Toni",
+        "email": "toni@gmail.com",
+        "role": "tutor",
+        "createdAt": "2020-04-08T14:57:20.984Z",
+        "updatedAt": "2020-05-08T20:31:40.958Z",
+        "__v": 28
+    }
+]
+
+
+## Get a tutor in a category
+
+Access: Requires authentication
+
+### Request
+
+`GET /categories/:category/tutors`
+
+#### Example Request
+
+`GET /categories/JSS/tutors`
+
+### Response
+
+    [
+        subjects: [
+            {
+                "_id": "5rb97bokekjb710l2e5rlv4a",
+                "name": "Mathematics",
+                "category": "JSS",
+                "__v": 0
+            } 
+        ],
+        "tutors": [
+            {
+                "_id": "5rb97voego934672hek943ew",
+                "first_name": "James",
+                "last_name: "Matt",
+                "subject": "Mathematics",
+                "category": "JSS",
+                "__v": 0
+            }
+        ],
+        "_id": "5eb67ac8bd58b7104e504349",
+        "category_name": "JSS",
+        "__v": 0
+    ]
+
+## Register a subject
+
+Access: Admin and Tutors
+
+### Request
+
+`PUT /categories/:category/tutors`
+
+## Required Body:
+
+    - tutor: String
+    - subject: String
+
+#### Example Request
+
+`PUT /categories/JSS/tutors`
+
+    - tutor: "James Matt"
+    - subject: "English Language"
+
+### Response
+
+    {
+        message: "Update Successful"
+    }
+
+## Unregister a subject
+
+Access: Admin and Tutors
+
+### Request
+
+`DELETE /categories/:category/tutors`
+
+## Required Body:
+
+    - tutor: String
+    - subject: String
+
+#### Example Request
+
+`DELETE /categories/JSS/tutors`
+
+    - tutor: "James Matt"
+    -  subject: "English Language"
 
 ### Response
 
     
 
-## Change a Thing's state
+## Make tutor an admin ( search for tutor to get his id )
+
+Access: Admin
 
 ### Request
 
-`PUT /thing/:id/status/changed`
+`PUT /tutor/:id`
 
-    curl -i -H 'Accept: application/json' -X PUT http://localhost:7000/thing/1/status/changed
+#### Example Request
+
+`PUT /tutor/5eb5da3b992be34dcc0217fe`
 
 ### Response
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 40
+    {
+        message: "Role changed to admin"
+    }
 
-    {"id":1,"name":"Foo","status":"changed"}
+## Remove tutor from admin ( search for tutor to get his id )
 
-## Get changed Thing
+Access: Admin
 
 ### Request
 
-`GET /thing/id`
+`DELETE /tutor/:id`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/1
+#### Example Request
+
+`DELETE /tutor/5eb5da3b992be34dcc0217fe`
 
 ### Response
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 40
+    {
+        message: "Role changed to tutor"
+    }
 
-    {"id":1,"name":"Foo","status":"changed"}
+## Deactivate a tutor ( search for tutor to get his id )
 
-## Change a Thing
+Access: Admin
 
 ### Request
 
-`PUT /thing/:id`
+`PUT /tutor/:id/deactivate`
 
-    curl -i -H 'Accept: application/json' -X PUT -d 'name=Foo&status=changed2' http://localhost:7000/thing/1
+#### Example Request
+
+`PUT /tutor/5eb5da3b992be34dcc0217fe/deactivate`
 
 ### Response
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:31 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
+    [
+        {"message": "John Doe is deactivated"}
 
-    {"id":1,"name":"Foo","status":"changed2"}
+    ]
 
-## Attempt to change a Thing using partial params
+## Activate a tutor ( search for tutor to get his id )
+
+Access: Admin
 
 ### Request
 
-`PUT /thing/:id`
+`PUT /tutor/:id/activate`
 
-    curl -i -H 'Accept: application/json' -X PUT -d 'status=changed3' http://localhost:7000/thing/1
+#### Example Request
 
-### Response
-
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
-
-    {"id":1,"name":"Foo","status":"changed3"}
-
-## Attempt to change a Thing using invalid params
-
-### Request
-
-`PUT /thing/:id`
-
-    curl -i -H 'Accept: application/json' -X PUT -d 'id=99&status=changed4' http://localhost:7000/thing/1
+`PUT /tutor/5eb5da3b992be34dcc0217fe/activate`
 
 ### Response
 
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
+    [
+        {"message": "John Doe is activated"}
 
-    {"id":1,"name":"Foo","status":"changed4"}
-
-## Change a Thing using the _method hack
-
-### Request
-
-`POST /thing/:id?_method=POST`
-
-    curl -i -H 'Accept: application/json' -X POST -d 'name=Baz&_method=PUT' http://localhost:7000/thing/1
-
-### Response
-
-    HTTP/1.1 200 OK
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 200 OK
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 41
-
-    {"id":1,"name":"Baz","status":"changed4"}
-
-## Change a Thing using the _method hack in the url
-
-### Request
-
-`POST /thing/:id?_method=POST`
-
-    curl -i -H 'Accept: application/json' -X POST -d 'name=Qux' http://localhost:7000/thing/1?_method=PUT
-
-### Response
-
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: text/html;charset=utf-8
-    Content-Length: 35
-
-    {"status":404,"reason":"Not found"}
-
-## Delete a Thing
-
-### Request
-
-`DELETE /thing/id`
-
-    curl -i -H 'Accept: application/json' -X DELETE http://localhost:7000/thing/1/
-
-### Response
-
-    HTTP/1.1 204 No Content
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 204 No Content
-    Connection: close
-
-
-## Try to delete same Thing again
-
-### Request
-
-`DELETE /thing/id`
-
-    curl -i -H 'Accept: application/json' -X DELETE http://localhost:7000/thing/1/
-
-### Response
-
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:32 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 35
-
-    {"status":404,"reason":"Not found"}
-
-## Get deleted Thing
-
-### Request
-
-`GET /thing/1`
-
-    curl -i -H 'Accept: application/json' http://localhost:7000/thing/1
-
-### Response
-
-    HTTP/1.1 404 Not Found
-    Date: Thu, 24 Feb 2011 12:36:33 GMT
-    Status: 404 Not Found
-    Connection: close
-    Content-Type: application/json
-    Content-Length: 35
-
-    {"status":404,"reason":"Not found"}
-
-## Delete a Thing using the _method hack
-
-### Request
-
-`DELETE /thing/id`
-
-    curl -i -H 'Accept: application/json' -X POST -d'_method=DELETE' http://localhost:7000/thing/2/
-
-### Response
-
-    HTTP/1.1 204 No Content
-    Date: Thu, 24 Feb 2011 12:36:33 GMT
-    Status: 204 No Content
-    Connection: close
+    ]

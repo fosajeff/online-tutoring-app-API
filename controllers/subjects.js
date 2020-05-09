@@ -11,7 +11,7 @@ module.exports = {
     if (!name) {
       res.status(400).send({
         message: "Invalid field name",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
 
@@ -84,7 +84,7 @@ module.exports = {
     if (!sname) {
       res.status(400).send({
         message: "Invalid query parameter",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     try {
@@ -131,41 +131,12 @@ module.exports = {
     } catch (e) { console.log(e) }
 },
 
-  // DELETE /categories/:category/sujects/:subject/tutors/:id    // delete the tutor
-  // deleteTutorBySubject:
-
-
-  // DELETE /categories/:category/subjects/:id
-  // deleteSubjectByCategory: async (req, res) => {
-  //   const { category, id } = req.params
-  //   const getCategory = await Category.findOne({ category_name: category })
-  //   if (getCategory === null) {
-  //     res.status(404)
-  //     .send({
-  //       message: `Category with name ${category} does not exist`,
-  //     })
-  //   }
-  //   // getCategory.remove(function () {
-  //   //   return res.json({message: "Subject deleted"})
-  //   // })
-  //   const categoryBySubjects = await Subject.findOne({ name: id, category })
-  //   if (!categoryBySubjects) {
-  //     res.status(404)
-  //     .send({
-  //       message: `No subject with name ${id} exist in the ${category} category`,
-  //     })
-  //   }
-  //   try {
-  //     const deleted = await categoryBySubjects.deleteOne({ name: id, category: category })
-  //     res.json({message: "Deleted Successfully", categoryBySubjects})
-  //   } catch (e) { console.log(e) }
-  // }
 
   // DELETE /categories/:category/subjects/:id
   deleteSubjectByCategory: async (req, res) => {
-    const subject = Subject.findOne({ name: req.params.name })
+    const subject = Subject.findOne({ name: req.params.id })
     if (!subject) {
-      return res.status(404).json({message: `Subject with name ${req.params.name} not found`})
+      return res.status(404).json({message: `Subject with name ${req.params.id} not found`})
     }
     try {
       subject.remove(function(err) {

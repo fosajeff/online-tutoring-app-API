@@ -10,7 +10,7 @@ module.exports = {
       if (!category_name) {
         res.status(400).send({
           message: "Invalid field name",
-          documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+          documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
         })
       }
       let exist = await Category.findOne({ category_name })
@@ -19,7 +19,7 @@ module.exports = {
         await category.save()
         res.json(category)
       }
-      res.status(423)
+      return res.status(423)
       .send({
         message: `Category with name ${category_name} already exist`,
       })

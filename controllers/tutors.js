@@ -15,12 +15,12 @@ module.exports = {
     return res.json(tutors)
   },
 
-  // GET /categories/:id/tutors
+  // GET /categories/:category/tutors
   tutorsByCategory: async (req, res) => {
-    const { id } = req.params
-    const category = await Category.find({ category_name: id }).populate("tutors")
+    const { category } = req.params
+    const cat = await Category.find({ category_name: category })
 
-    return res.json(category.tutors)
+    return res.json(cat.tutors)
   },
 
   // PUT /categories/:category/tutors
@@ -31,7 +31,7 @@ module.exports = {
     if (!tutor || !subject) {
       res.status(400).send({
         message: "All fields are required",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     try {
@@ -41,7 +41,7 @@ module.exports = {
         const tutor_parts = tutor.split(' ')
         let first_name = tutor_parts[0]
         let last_name = tutor_parts[1]
-        const data = await Tutor.findOne({first_name, last_name}).populate("category")
+        const data = await Tutor.findOne({first_name, last_name})
         if (data === null) {
           return res.status(404).json({
             message: `Tutor with name ${tutor} does not exist`,
@@ -77,7 +77,7 @@ module.exports = {
     if (!tutor || !subject) {
       res.status(400).send({
         message: "All fields are required",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     try {

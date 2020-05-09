@@ -6,7 +6,7 @@ const allowedRoles = ['admin', 'tutor']
 const allowed = ['admin']
 
 
-router.get("/categories/:id/tutors", tutorsByCategory)
+router.get("/categories/:category/tutors", tutorsByCategory)
 // ?fname=John
 router.get("/tutors?", findTutorsByFirstName)
 router.put("/categories/:category/tutors", [authenticate, authenticateByRole(allowedRoles)], registerSubject)

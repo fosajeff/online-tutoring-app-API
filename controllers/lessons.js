@@ -11,7 +11,7 @@ module.exports = {
     if (!title || !subject || !category || !content) {
       res.status(400).send({
         message: "All fields are required",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     try {
@@ -39,7 +39,7 @@ module.exports = {
     updatedBody.content ? content = updatedBody.content : content = content
 
     try {
-      const getLesson = await Lesson.findOne({ title: title })
+      const getLesson = await Lesson.findOne({ title: id })
       if (getLesson === null) {
         return res.status(404)
         .send({
@@ -86,7 +86,7 @@ module.exports = {
   // GET /lessons/:id
   findOneLesson: async (req, res) => {
     try {
-      const lesson = await Lesson.find({title:id})
+      const lesson = await Lesson.find({title:req.params.id})
       res.json(lesson)
     } catch(e) {
       console.log(e)
@@ -95,11 +95,11 @@ module.exports = {
 
   // student book lesson
   bookLesson: async (req, res) => {
-    const { full_name, subject, tutor, challenges, time_of_day } = req.body
-    if (!full_name || !subject || !tutor || !challenges || !time_of_day) {
+    const { full_name, subject, tutor, category, challenges, time_of_day } = req.body
+    if (!full_name || !subject || !tutor || !category || !time_of_day) {
       res.status(400).send({
         message: "All fields are required",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
     return res.status(200).json({

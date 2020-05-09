@@ -9,7 +9,6 @@ const subjectSchema = new Schema({
   },
   category: {
     type: String,
-    required: true
   },
 })
 

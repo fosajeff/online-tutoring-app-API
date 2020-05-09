@@ -24,7 +24,7 @@ module.exports = {
     } catch (error) {
       return res.status(401).send({
         message: "Unauthorized access, provide a valid token",
-        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+        documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
       })
     }
   },
@@ -35,7 +35,7 @@ module.exports = {
       if (!allowedRoles.includes(req.user.role)) {
         return next(res.status(401).send({
           message: "You are not authorized to access this resource",
-          documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/README.md"
+          documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"
         }));
       }
       return next()
