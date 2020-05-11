@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 const authRoutes = require("./routes/auth")
-// const tutorRoutes = require("./routes/tutors")
+const tutorRoutes = require("./routes/tutors")
 const categoryRoutes = require("./routes/category")
 const subjectRoutes = require("./routes/subjects")
 const lessonRoutes = require("./routes/lessons")
@@ -12,7 +12,7 @@ const router = express.Router()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(authRoutes)
-// app.use(tutorRoutes)
+app.use(tutorRoutes)
 app.use(categoryRoutes)
 app.use(subjectRoutes)
 app.use(lessonRoutes)
@@ -28,7 +28,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 }).catch(err => console.log("Connection to database failed =>", err))
 
 // Index Page
-app.get("/api/v1", (req, res) => {
+app.get("/", (req, res) => {
   res.send({
     message: "Welcome",
     documentation_url: "https://github.com/fosajeff/online-tutoring-app-API/blob/master/README.md"

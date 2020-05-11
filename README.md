@@ -2,7 +2,7 @@
 
 This is an online tutorial application REST API.
 
-<https://my-online-tutor.herokuapp.com/api/v1>
+<https://my-online-tutor.herokuapp.com>
 
 
 The REST API to the online tutorial app is described below.
