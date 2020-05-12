@@ -22,7 +22,7 @@ module.exports = {
         await subject.save()
 
         const categoryByCategoryName = await Category.findOne(
-          { category_name: category }
+          { category_name: category }, {_id:0, __v: 0}
         ).populate("subjects")
         categoryByCategoryName.subjects.push(subject)
         await categoryByCategoryName.save()
@@ -40,16 +40,16 @@ module.exports = {
   // GET /categories/:category/subjects   by category id in req.params object
   subjectsByCategory: async (req, res) => {
     const { category } = req.params
-    const getCategory = await Category.findOne({ category_name: category }).populate("subjects")
+    const getCategory = await Category.findOne({ category_name: category }, {_id:0, __v: 0}).populate("subjects")
     if (!getCategory) {
-      res.status(404)
+      return res.status(404)
       .send({
         message: `Category with name ${category} does not exist`,
       })
     }
     const subjects = getCategory.subjects
-    if (!subjects) {
-      res.status(404)
+    if (!subjects.length > 0) {
+      return res.status(404)
       .send({
         message: `No subject exist in the ${category} category`,
       })
@@ -67,7 +67,7 @@ module.exports = {
         message: `Category with name ${category} does not exist`,
       })
     }
-    const categoryBySubjects = await Subject.findOne({ name: id, category })
+    const categoryBySubjects = await Subject.findOne({ name: id, category }, {_id:0, __v: 0})
     if (!categoryBySubjects) {
       res.status(404)
       .send({
@@ -88,7 +88,7 @@ module.exports = {
       })
     }
     try {
-      const subjects = await Subject.find({ name: sname })
+      const subjects = await Subject.find({ name: sname }, {_id:0, __v: 0})
       if (!subjects[0]) {
         return res.status(404)
         .send({

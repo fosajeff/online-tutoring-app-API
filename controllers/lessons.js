@@ -75,7 +75,7 @@ module.exports = {
     // GET /lessons
     findLesson: async (req, res) => {
       try {
-        const lessons = await Lesson.find()
+        const lessons = await Lesson.find({}, {_id:0, __v: 0})
         res.json(lessons)
       } catch (e) {
         console.log(e)
@@ -86,7 +86,7 @@ module.exports = {
   // GET /lessons/:id
   findOneLesson: async (req, res) => {
     try {
-      const lesson = await Lesson.find({title:req.params.id})
+      const lesson = await Lesson.find({title:req.params.id}, {_id:0, __v: 0})
       res.json(lesson)
     } catch(e) {
       console.log(e)

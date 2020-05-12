@@ -8,7 +8,7 @@ module.exports = {
 
   findTutorsByFirstName: async (req, res) => {
     const { fname } = req.query
-    const tutors = await Tutor.find({ first_name: fname}).sort({ first_name: 1, last_name: 1 })
+    const tutors = await Tutor.find({ first_name: fname}, {__v: 0}).sort({ first_name: 1, last_name: 1 })
     if (!tutors) {
       res.send({message: `No tutors with name ${fname}`})
     }
@@ -18,7 +18,7 @@ module.exports = {
   // GET /categories/:category/tutors
   tutorsByCategory: async (req, res) => {
     const { category } = req.params
-    const cat = await Category.find({ category_name: category })
+    const cat = await Category.find({ category_name: category }, {__v: 0})
 
     return res.json(cat.tutors)
   },
@@ -53,7 +53,7 @@ module.exports = {
           })
         }
         // add tutor to category
-        const set_category = await Category.findOne({ category_name: category})
+        const set_category = await Category.findOne({ category_name: category}, {__v: 0})
         set_category.tutors.push(tutor_parts)
         await set_category.save()
         data.subjects.push(subject)

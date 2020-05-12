@@ -31,7 +31,7 @@ module.exports = {
   // GET /categories
   findAll: async (req, res) => {
     try {
-      const category = await Category.find().populate("subjects")
+      const category = await Category.find({}, {_id:0, __v: 0}).populate("subjects")
       res.json(category)
 
     } catch (e) {
@@ -43,7 +43,7 @@ module.exports = {
   findCategory: async (req, res) => {
     try {
       const { category } = req.params
-      const getCategory = await Category.findOne({ category_name: category }).populate("subjects")
+      const getCategory = await Category.findOne({ category_name: category }, {_id:0, __v: 0}).populate("subjects")
       return res.json(getCategory)
     } catch (e) {
       console.log(e)
