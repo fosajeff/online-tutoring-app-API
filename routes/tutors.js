@@ -7,10 +7,9 @@ const allowed = ['admin']
 
 
 router.get("/api/v1/categories/:category/tutors", tutorsByCategory)
-// ?fname=John
 router.get("/api/v1/tutors?", findTutorsByFirstName)
-router.put("/api/v1/categories/:category/tutors", [authenticate, authenticateByRole(allowedRoles)], registerSubject)
-router.delete("/api/v1/categories/:category/tutors", [authenticate, authenticateByRole(allowedRoles)], unregisterSubject)
+router.put("/api/v1/categories/:category/subjects/:subject/register", [authenticate, authenticateByRole(allowedRoles)], registerSubject)
+router.put("/api/v1/categories/:category/subjects/:subject/unregister", [authenticate, authenticateByRole(allowedRoles)], unregisterSubject)
 router.put("/api/v1/tutors/:id", [authenticate, authenticateByRole(allowed)], makeTutorAdmin)
 router.delete("/api/v1/tutors/:id", [authenticate, authenticateByRole(allowed)], removeAdmin)
 router.put("/api/v1/tutors/:id/activate", [authenticate, authenticateByRole(allowed)], activateTutor)
