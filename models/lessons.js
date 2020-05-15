@@ -17,7 +17,7 @@ const lessonSchema = new Schema({
   content: {
     type: String
   }
-})
+}, { timestamps: true })
 
 
 module.exports = mongoose.model("Lesson", lessonSchema)
