@@ -24,14 +24,14 @@ module.exports = {
           const subject = await Subject.create({ name, category });
           await subject.save();
 
-          const categoryByCategoryName = await Category.findOne({
+          checkCategory.subjects.push(subject._id);
+          await checkCategory.save();
+          const getCategory = await Category.findOne({
             category_name: category
           }).populate("subjects");
-          categoryByCategoryName.subjects.push(subject);
-          await categoryByCategoryName.save();
-          return res.json(categoryByCategoryName);
+          return res.json(getCategory);
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       } else {
         return res.status(423).send({

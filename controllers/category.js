@@ -46,7 +46,7 @@ module.exports = {
       const getCategory = await Category.findOne({ category_name: category }, {_id:0, __v: 0}).populate("subjects")
       return res.json(getCategory)
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
   },
 
@@ -65,25 +65,20 @@ module.exports = {
       }
       await updateCategoryName.save()
       return res.json({message: "Update Successful"})
-    } catch (e) { console.log(e) }
+    } catch (e) { console.error(e) }
 },
 
   // DELETE /categories/:category
   deleteCategory: async (req, res) => {
-    const category = Category.findOne({ category_name: req.params.category })
-    if (!category) {
+    const category = await Category.findOne({ category_name: req.params.category })
+    
+    if (category === null || !category.category_name) {
       return res.status(404).json({message: `Category with name ${req.params.category} not found`})
     }
-    try {
-      category.remove(function(err) {
-        if (!err) {
-          Subject.update({_id: {$in: category.subjects}}, {$pull: {category: req.params.category}}, function (err, numberAffected) {
-            return res.json({message: `${numberAffected.ok} category deleted`})
-          })
-        } else {
-          console.log(err);
-        }
-      })
-    } catch(e) { console.log(e) }
+    await Category.deleteOne({ category_name: req.params.category })
+    await Subject.deleteMany({category: req.params.category})
+    return res.json({
+      message: "Category deleted successfully"
+    })
   }
 }

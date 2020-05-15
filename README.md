@@ -5,8 +5,15 @@ This is an online tutorial application REST API.
 <https://my-online-tutor.herokuapp.com>
 
 
-The REST API to the online tutorial app is described below.
+The REST API to the online tutorial app is described below.  
+This is version 1 of our API.  
+**Prefix all endpoints with /api/v1**
 
+## An Admin can login in through any routes with the following details
+#### Token expires in 1 day for all users
+
+**email: admin@mail.com**  
+**password: #admin#**
 
 ## Signup as User
 
@@ -21,11 +28,12 @@ The REST API to the online tutorial app is described below.
 - password
 
 ### Response
-
-    {
-        "message": "Proceed to login with",
-        "email": "user@email.com"
-    }
+```json
+{
+    "message": "Proceed to login with",
+    "email": "user@email.com"
+}
+```
 
 ## Login as User
 
@@ -39,13 +47,14 @@ The REST API to the online tutorial app is described below.
 `POST /login`
 
 ### Response
-    
-    {
-        "message": "Login successful",
-        "_id": "5eb5da3b992be34dcc0217fe",
-        "token": "somerandomtoken"
-    }
-
+```json    
+{
+    "message": "Login successful",
+    "_id": "5eb5da3b992be34dcc0217fe",
+    "token": "somerandomtoken",
+    "expiration_date": "2020-05-15T21:19:27.000Z"
+}
+```
 
 ## Signup as Tutor
 
@@ -61,11 +70,12 @@ The REST API to the online tutorial app is described below.
 - password
 
 ### Response
-
-    {
-        "message": "Proceed to login with",
-        "email": "user@email.com"
-    }
+```json
+{
+    "message": "Proceed to login with",
+    "email": "user@email.com"
+}
+```
 
 ## Login as Tutor
 
@@ -79,16 +89,14 @@ The REST API to the online tutorial app is described below.
 - password
 
 ### Response
-    
-    {
-        "message": "Login successful",
-        "_id": "5eb5da3b992be34dcc0217fe",
-        "token": "somerandomtoken"
-    }
-
-## An Admin can login in through any routes with the following details
-* email: admin@mail.com
-* password: #admin#
+```json    
+{
+    "message": "Login successful",
+    "_id": "5eb5da3b992be34dcc0217fe",
+    "token": "somerandomtoken",
+    "expiration_date": "2020-05-15T21:19:27.000Z"
+}
+```
 
 ## Get all categories
 
@@ -99,23 +107,22 @@ Access: Requires authentication
 `GET /categories`
 
 ### Response
-
-    [
-        {
-            subjects: [],
-            "tutors": [],
-            "_id": "5eb67ac8bd58b7104e504349",
-            "category_name": "JSS",
-            "__v": 0
-        },
-        {
-            subjects: [],
-            "tutors": [],
-            "_id": "5peolrkajijER7893494eFGr",
-            "category_name": "Primary",
-            "__v": 0
-        },
-    ]
+```json
+[
+    {
+        "subjects": [],
+        "tutors": [],
+        "_id": "5eb67ac8bd58b7104e504349",
+        "category_name": "JSS",
+    },
+    {
+        "subjects": [],
+        "tutors": [],
+        "_id": "5peolrkajijER7893494eFGr",
+        "category_name": "Primary",
+    },
+]
+```
 
 ## Get a category by id
 
@@ -130,15 +137,14 @@ Access: Requires authentication
 `GET /categories/JSS`
 
 ### Response
-
-    {
-        subjects: [],
-        "tutors": [],
-        "_id": "5eb67ac8bd58b7104e504349",
-        "category_name": "JSS",
-        "__v": 0
-    }
-
+```json
+{
+    "subjects": [],
+    "tutors": [],
+    "_id": "5eb67ac8bd58b7104e504349",
+    "category_name": "JSS",
+}
+````
 
 ## Create a category
 
@@ -159,14 +165,14 @@ Access: Admin Only
 > category_name: Primary
 
 ### Response
-
-    {
-        "subjects": [],
-        "tutors": [],
-        "_id": "5eb67ac8bd58b7104e504349",
-        "category_name": "Primary",
-        "__v": 0
-    }
+```json
+{
+    "subjects": [],
+    "tutors": [],
+    "_id": "5eb67ac8bd58b7104e504349",
+    "category_name": "Primary",
+}
+```
 
 ## Update a category
 
@@ -192,11 +198,11 @@ Access: Admin Only
 > tutors: ["Tutor One", "Tutor Two"]
 
 ### Response
-
-    {
-        "message": "Update Successful"
-    }
-
+```json
+{
+    "message": "Update Successful"
+}
+```
 
 ## Delete a category
 
@@ -211,10 +217,11 @@ Access: Admin Only
 `DELETE /categories/Primary`
 
 ### Response
-
-    [
-        {"message": "1 category deleted"}
-    ]
+```json
+{
+    "message": "1 category deleted"
+}
+```
 
 ## Get all subjects by category
 
@@ -229,21 +236,20 @@ Access: Requires authentication
 `GET /categories/Primary/subjects`
 
 ### Response
-
-    [
-        {
-            "_id": "5eb67bokekjfb7104e50434a",
-            "name": "Mathematics",
-            "category": "Primary",
-            "__v": 0
-        },
-        {
-            "_id": "5eb67bokekjfb7104e50434a",
-            "name": "Social Studies",
-            "category": "Primary",
-            "__v": 0
-        }
-    ]
+```json
+[
+    {
+        "_id": "5eb67bokekjfb7104e50434a",
+        "name": "Mathematics",
+        "category": "Primary",
+    },
+    {
+        "_id": "5eb67bokekjfb7104e50434a",
+        "name": "Social Studies",
+        "category": "Primary",
+    }
+]
+```
 
 ## Get a subject in a category by id
 
@@ -258,14 +264,13 @@ Access: Requires authentication
 `GET /categories/Primary/subjects/Mathematics`
 
 ### Response
-
-    {
-        "_id": "5eb67bokekjfb7104e50434a",
-        "name": "Mathematics",
-        "category": "Primary",
-        "__v": 0
-    }
-
+```json
+{
+    "_id": "5eb67bokekjfb7104e50434a",
+    "name": "Mathematics",
+    "category": "Primary",
+}
+```
 
 ## Search a subject by subject name
 
@@ -280,27 +285,25 @@ Access: Requires authentication
 `GET /subjects?sname=Mathematics`
 
 ### Response
-
-    [
-        {
-            "_id": "5eb67b723lvp039fve50434a",
-            "name": "Mathematics",
-            "category": "JSS",
-            "__v": 0
-        },
-        {
-            "_id": "5woerbokekweigg4eWT4Qrie",
-            "name": "Mathematics",
-            "category": "Primary",
-            "__v": 0
-        },
-        {
-            "_id": "5gh3j4ktgto23l104e50434a",
-            "name": "Mathematics",
-            "category": "SSS",
-            "__v": 0
-        }
-    ]
+```json
+[
+    {
+        "_id": "5eb67b723lvp039fve50434a",
+        "name": "Mathematics",
+        "category": "JSS",
+    },
+    {
+        "_id": "5woerbokekweigg4eWT4Qrie",
+        "name": "Mathematics",
+        "category": "Primary",
+    },
+    {
+        "_id": "5gh3j4ktgto23l104e50434a",
+        "name": "Mathematics",
+        "category": "SSS",
+    }
+]
+```
 
 ## Add a subject
 
@@ -321,22 +324,22 @@ Access: Admin Only
 > name: Geography
 
 ### Response
-
-    {
-        "subjects": [
-            {
-                "_id": "5eb67bfabd58b7104e50434a",
-                "name": "Geography",
-                "category": "JSS",
-                "__v": 0
-            }
-        ],
-        "tutors": [],
-        "_id": "5eb67ac8bd58b7104e504349",
-        "category_name": "JSS",
-        "__v": 1
-    }
-
+```json
+{
+    "subjects": [
+        {
+            "_id": "5eb67bfabd58b7104e50434a",
+            "name": "Geography",
+            "category": "JSS",
+            "__v": 0
+        }
+    ],
+    "tutors": [],
+    "_id": "5eb67ac8bd58b7104e504349",
+    "category_name": "JSS",
+    "__v": 1
+}
+```
 
 ## Update a subject by id
 
@@ -346,21 +349,23 @@ Access: Admin Only
 
 `PUT /categories/:category/subjects/:id`
 
-## Required Body:
+## Optional Body:
 
 - name: String
+- category: String
 
 #### Example Request
 
 `PUT /categories/Primary/subjects/Geography`
 
-> name: Literature
+> name: Geology
 
 ### Response
-
+```json
 {
-    "message": "Update Successful"
+    "message": "1 subject updated successfully"
 }
+```
 
 ## Delete a subject by id
 
@@ -375,10 +380,11 @@ Access: Admin Only
 `DELETE /categories/JSS/subjects/Literature`
 
 ### Response
-
-    {
-        "message": "1 subject deleted"
-    }
+```json
+{
+    "message": "1 subject deleted"
+}
+```
 
 ## Get all lessons
 
@@ -389,26 +395,26 @@ Access: Admin only
 `GET /lessons`
 
 ### Response
-
+```json
 [
     {
-        "_id": "5eb5a9081dd96730baa54f60",
-        
-        "title": "Being sure of what you have received",
-        "subject": "CRS",
-        "category": "Primary",
-        "content": "This is the content of this lesson",
-        "__v": 0
+        "title": "Prose writing",
+        "subject": "Literature",
+        "category": "JSS",
+        "content": "This is an introduction to prose writing",
+        "createdAt": "2020-05-14T11:26:47.989Z",
+        "updatedAt": "2020-05-14T11:26:47.989Z"
     },
     {
-        "_id": "5eb5a9081dd967fjfh4H4f60",
-        "title": "The wave particle paradox",
-        "subject": "Physics",
-        "category": "SSS",
-        "content": "This is the content of this lesson",
-        "__v": 0
+        "title": "Pythagoras theorem",
+        "subject": "Mathematics",
+        "category": "Primary",
+        "content": "This is an introduction to pythagoras theorem",
+        "createdAt": "2020-05-14T11:27:36.944Z",
+        "updatedAt": "2020-05-14T11:27:36.944Z"
     },
 ]
+```
 
 ## Get a lesson by id
 
@@ -423,17 +429,15 @@ Access: Admin only
 `GET /lessons/Optics`
 
 ### Response
-
-    [
-    {
-        "_id": "5eb5sd0ghjd96730baa54f60",
-        "title": "Optics",
-        "subject": "Physics",
-        "category": "SSS",
-        "content": "This is the content of this lesson",
-        "__v": 0
-    }
-]
+```json
+{
+    "_id": "5eb5sd0ghjd96730baa54f60",
+    "title": "Optics",
+    "subject": "Physics",
+    "category": "SSS",
+    "content": "This is the content of this lesson",
+}
+```
 
 ## Create a lesson
 
@@ -448,14 +452,9 @@ Access: Admin only
 - title: String
 - subject: String
 - category: String
-
-## Optional Body:
-
-    - content: String
+- content: String
 
 #### Example Request
-
-`POST /lessons`
 
 - title: Optics
 - subject: Physics
@@ -463,15 +462,18 @@ Access: Admin only
 - content: "This is an introduction to wave optics"
 
 ### Response
-
-    {
-        "_id": "5eb680a1bd58b7104e50434c",
-        "title": "Optics",
-        "subject": "Physics",
-        "category": "SSS",
-        "content": "This is an introduction to wave optics",
-        "__v": 0
-    }
+```json
+{
+    "_id": "5eb680a1bd58b7104e50434c",
+    "title": "Optics",
+    "subject": "Physics",
+    "category": "SSS",
+    "content": "This is an introduction to wave optics",
+    "createdAt": "2020-05-14T10:00:35.435Z",
+    "updatedAt": "2020-05-14T10:00:35.435Z",
+    "__v": 0
+}
+```
 
 ## Update a lesson
 
@@ -494,10 +496,11 @@ Access: Admin only
 - content: "This is an introduction to wave optics and wave theory"
 
 ### Response
-
-    {
-        message: "Update Successful"
-    }
+```json
+{
+    "message": "1 Updated Successfully"
+}
+```
 
 ## Delete a lesson
 
@@ -512,11 +515,11 @@ Access: Admin only
 `DELETE /lessons/Optics`
 
 ### Response
-
-    {
-        "message": "Delete Successful"
-    }
-
+```json
+{
+    "message": "1 Delete Successfully"
+}
+```
 
 # Book a lesson
 
@@ -550,11 +553,11 @@ Access: Requires authentication
 - challenges: "I am having problem with understand how to balance chemical equations"
 
 ### Response
-
-    {
-        "message": "Your lesson has been booked, we will contact your tutor."
-    }
-
+```json
+{
+    "message": "Your lesson has been booked, we will contact your tutor."
+}
+```
 
 ## Search a tutor by first name
 
@@ -569,22 +572,18 @@ Access: Requires authentication
 `GET /tutors?fname=Michael`
 
 ### Response
-
+```json
 {
-    "subjects": ["Maths", "PHE", "CRS"],
-
+    "subjects": [
+        "Maths", "PHE", "CRS"
+    ],
     "category": ["Primary", "SSS"],
     "is_active": true,
     "_id": "5eb57350d476ca1144bcc8e5",
     "first_name": "Michael",
     "last_name": "Phillips",
-    "email": "phil@gmail.com",
-    "role": "tutor",
-    "createdAt": "2020-05-08T14:57:20.984Z",
-    "updatedAt": "2020-05-08T20:31:40.958Z",
-    "__v": 28
 }
-
+```
 
 ## Get a tutor in a category
 
@@ -599,30 +598,28 @@ Access: Requires authentication
 `GET /categories/JSS/tutors`
 
 ### Response
-
-    [
-        subjects: [
-            {
-                "_id": "5rb97bokekjb710l2e5rlv4a",
-                "name": "Mathematics",
-                "category": "JSS",
-                "__v": 0
-            } 
-        ],
-        tutors: [
-            {
-                "_id": "5rb97voego934672hek943ew",
-                "first_name": "James",
-                "last_name: "Matt",
-                "subject": "Mathematics",
-                "category": "JSS",
-                "__v": 0
-            }
-        ],
-        "_id": "5eb67ac8bd58b7104e504349",
-        "category_name": "JSS",
-        "__v": 0
-    ]
+```json
+{
+    "subjects": [
+        {
+            "_id": "5rb97bokekjb710l2e5rlv4a",
+            "name": "Mathematics",
+            "category": "JSS",
+        } 
+    ],
+    "tutors": [
+        {
+            "_id": "5rb97voego934672hek943ew",
+            "first_name": "James",
+            "last_name": "Matt",
+            "subject": "Mathematics",
+            "category": "JSS",
+        }
+    ],
+    "_id": "5eb67ac8bd58b7104e504349",
+    "category_name": "JSS",
+}
+```
 
 ## Register a subject
 
@@ -630,25 +627,30 @@ Access: Admin and Tutors
 
 ### Request
 
-`PUT /categories/:category/tutors`
-
-## Required Body:
-
-- tutor: String
-- subject: String
+`PUT /categories/:category/subjects/:subject/register`
 
 #### Example Request
 
-`PUT /categories/JSS/tutors`
+`PUT /categories/JSS/subjects/Mathematics/register`
 
-- tutor: "James Matt"
-- subject: "English Language"
 
 ### Response
-
-    {
-        message: "Update Successful"
-    }
+```json
+{
+    "message": "Registration Successful",
+    "subjects": [
+        "Mathematics",
+    ],
+    "category": [
+        "Primary",
+    ],
+    "is_active": true,
+    "_id": "5eb967751c8cd72d1277321e",
+    "first_name": "Tutor",
+    "last_name": "One",
+    "__v": 3
+}
+```
 
 ## Unregister a subject
 
@@ -656,23 +658,26 @@ Access: Admin and Tutors
 
 ### Request
 
-`DELETE /categories/:category/tutors`
-
-## Required Body:
-
-- tutor: String
-- subject: String
+`PUT /categories/:category/subjects/:subject/unregister`
 
 #### Example Request
 
-`DELETE /categories/JSS/tutors`
-
-- tutor: "James Matt"
--  subject: "English Language"
+`PUT /categories/JSS/subjects/English Language/unregister`
 
 ### Response
 
-    
+```json
+{
+    "message": "1 subject unregistered",
+    "subjects": [],
+    "category": [],
+    "is_active": true,
+    "_id": "5eb967751c8cd72d1277321e",
+    "first_name": "Tutor",
+    "last_name": "One",
+    "__v": 3
+}
+```
 
 ## Make tutor an admin ( search for tutor to get his id )
 
@@ -687,10 +692,11 @@ Access: Admin
 `PUT /tutor/5eb5da3b992be34dcc0217fe`
 
 ### Response
-
-    {
-        message: "Role changed to admin"
-    }
+```json
+{
+    "message": "Role changed to admin"
+}
+```
 
 ## Remove tutor from admin ( search for tutor to get his id )
 
@@ -705,10 +711,11 @@ Access: Admin
 `DELETE /tutor/5eb5da3b992be34dcc0217fe`
 
 ### Response
-
-    {
-        message: "Role changed to tutor"
-    }
+```json
+{
+    "message": "Role changed to tutor"
+}
+```
 
 ## Deactivate a tutor ( search for tutor to get his id )
 
@@ -723,11 +730,11 @@ Access: Admin
 `PUT /tutor/5eb5da3b992be34dcc0217fe/deactivate`
 
 ### Response
-
-    [
-        {"message": "John Doe is deactivated"}
-
-    ]
+```json
+{
+    "message": "John Doe is deactivated"
+}
+```
 
 ## Activate a tutor ( search for tutor to get his id )
 
@@ -742,8 +749,8 @@ Access: Admin
 `PUT /tutor/5eb5da3b992be34dcc0217fe/activate`
 
 ### Response
-
-    [
-        {"message": "John Doe is activated"}
-
-    ]
+```json
+{
+    "message": "John Doe is activated"
+}
+```

@@ -19,7 +19,7 @@ const categorySchema = new Schema({
 })
 
 categorySchema.pre('remove', function (cb) {
-  this.model('Subject').remove({ Category_id: this._id }, cb)
+  this.model('Subject').remove({ category_id: this._id }, cb)
 })
 
 module.exports = mongoose.model("Category", categorySchema)

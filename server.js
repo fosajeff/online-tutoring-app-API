@@ -5,7 +5,7 @@ const tutorRoutes = require("./routes/tutors")
 const categoryRoutes = require("./routes/category")
 const subjectRoutes = require("./routes/subjects")
 const lessonRoutes = require("./routes/lessons")
-const { DB_URL, HOST } = require("./config")
+const { DB_URL } = require("./config")
 const mongoose = require("mongoose")
 const router = express.Router()
 
@@ -19,12 +19,12 @@ app.use(lessonRoutes)
 
 
 const PORT = process.env.PORT || 5000;
-const url = DB_URL || "mongodb://localhost:27017/newTest"
+const url = "mongodb://localhost:27017/newTest"
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result => {
   console.log("Database connected successfully")
-  app.listen(PORT, () => console.log(`Server running on http://${HOST}:${PORT}`))
+  app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`))
 }).catch(err => console.log("Connection to database failed =>", err))
 
 // Index Page
