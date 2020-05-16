@@ -1,4 +1,4 @@
-require("dotenv").config();
+(require('dotenv').config({ silent: process.env.NODE_ENV === 'production' }))
 
 module.exports = {
 	DB_URL: process.env.DB_URL,
