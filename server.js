@@ -19,7 +19,7 @@ app.use(lessonRoutes)
 
 
 const PORT = process.env.PORT || 5000;
-const url = "mongodb://localhost:27017/newTest"
+const url = DB_URL || "mongodb://localhost:27017/newTest"
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(result => {
