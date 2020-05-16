@@ -1,15 +1,14 @@
 # REST API for Online Tutorial Application
 
-This is an online tutorial application REST API.
+> This is an online tutorial application API built with nodeJS, expressJS and mongoDB
 
 <https://my-online-tutor.herokuapp.com>
-
 
 The REST API to the online tutorial app is described below.  
 This is version 1 of our API.  
 **Prefix all endpoints with /api/v1**
 
-## An Admin can login in through any routes with the following details
+#### An Admin can login in through tutors or users login routes with the following details
 #### Token expires in 1 day for all users
 
 **email: admin@mail.com**  
@@ -30,7 +29,7 @@ This is version 1 of our API.
 ### Response
 ```json
 {
-    "message": "Proceed to login with",
+    "message": "Proceed to login",
     "email": "user@email.com"
 }
 ```
@@ -72,7 +71,7 @@ This is version 1 of our API.
 ### Response
 ```json
 {
-    "message": "Proceed to login with",
+    "message": "Proceed to login",
     "email": "user@email.com"
 }
 ```
@@ -422,7 +421,7 @@ Access: Admin only
 
 ### Request
 
-`GET /lessons:id`
+`GET /lessons/:id`
 
 #### Example Request
 
@@ -459,7 +458,7 @@ Access: Admin only
 - title: Optics
 - subject: Physics
 - category: SSS
-- content: "This is an introduction to wave optics"
+- content: "This is an introduction to optics"
 
 ### Response
 ```json
@@ -468,7 +467,7 @@ Access: Admin only
     "title": "Optics",
     "subject": "Physics",
     "category": "SSS",
-    "content": "This is an introduction to wave optics",
+    "content": "This is an introduction to optics",
     "createdAt": "2020-05-14T10:00:35.435Z",
     "updatedAt": "2020-05-14T10:00:35.435Z",
     "__v": 0
@@ -492,8 +491,8 @@ Access: Admin only
 
 `PATCH /lessons/Optics`
 
-- title: Wave Optics
-- content: "This is an introduction to wave optics and wave theory"
+- title: Wave and Optics
+- content: "This is an introduction to optics and wave theory"
 
 ### Response
 ```json
@@ -550,7 +549,7 @@ Access: Requires authentication
 - tutor: Ani Walker
 - category: SSS
 - time_of_day: Afternoon
-- challenges: "I am having problem with understand how to balance chemical equations"
+- challenges: "I am having problem understanding how to balance chemical equations"
 
 ### Response
 ```json
