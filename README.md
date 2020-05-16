@@ -684,11 +684,11 @@ Access: Admin
 
 ### Request
 
-`PUT /tutor/:id`
+`PUT /tutors/:id`
 
 #### Example Request
 
-`PUT /tutor/5eb5da3b992be34dcc0217fe`
+`PUT /tutors/5eb5da3b992be34dcc0217fe`
 
 ### Response
 ```json
@@ -703,11 +703,11 @@ Access: Admin
 
 ### Request
 
-`DELETE /tutor/:id`
+`DELETE /tutors/:id`
 
 #### Example Request
 
-`DELETE /tutor/5eb5da3b992be34dcc0217fe`
+`DELETE /tutors/5eb5da3b992be34dcc0217fe`
 
 ### Response
 ```json
@@ -722,11 +722,11 @@ Access: Admin
 
 ### Request
 
-`PUT /tutor/:id/deactivate`
+`PUT /tutors/:id/deactivate`
 
 #### Example Request
 
-`PUT /tutor/5eb5da3b992be34dcc0217fe/deactivate`
+`PUT /tutors/5eb5da3b992be34dcc0217fe/deactivate`
 
 ### Response
 ```json
@@ -741,11 +741,11 @@ Access: Admin
 
 ### Request
 
-`PUT /tutor/:id/activate`
+`PUT /tutors/:id/activate`
 
 #### Example Request
 
-`PUT /tutor/5eb5da3b992be34dcc0217fe/activate`
+`PUT /tutors/5eb5da3b992be34dcc0217fe/activate`
 
 ### Response
 ```json
